@@ -1,0 +1,29 @@
+[project]
+name = "preboletas-api"
+version = "1.0.0"
+description = "API de Preboletas de SICAR: negociaciones de fruta, báscula y vinculación con las boletas de D365"
+requires-python = ">=3.12"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+packages = ["app", "scripts", "tests"]
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+# El SDK de Dataverse y azure-identity no publican tipos completos.
+module = ["PowerPlatform.*", "azure.*"]
+ignore_missing_imports = true
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["fastapi.Depends", "fastapi.Query", "fastapi.Body", "fastapi.Header", "fastapi.Path"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
